@@ -27,7 +27,7 @@ Manage in-app purchases and auto-renewable subscriptions via the App Store Conne
 The CLI tool requires a Python venv with `PyJWT` and `cryptography`. On first use, run setup:
 
 ```bash
-bash ~/.claude/skills/asc-iap-manager/setup_venv.sh
+bash ${CLAUDE_PLUGIN_ROOT}/setup_venv.sh
 ```
 
 Auth credentials are read from environment variables or auto-discovered from `~/.appstoreconnect/`:
@@ -37,65 +37,65 @@ Auth credentials are read from environment variables or auto-discovered from `~/
 
 ## CLI Tool
 
-The tool lives at `~/.claude/skills/asc-iap-manager/asc_iap.py` and is run via the skill's venv:
+The tool lives at `${CLAUDE_PLUGIN_ROOT}/asc_iap.py` and is run via the skill's venv:
 
 ```bash
-VENV=~/.claude/skills/asc-iap-manager/.venv/bin/python
+VENV=${CLAUDE_PLUGIN_ROOT}/.venv/bin/python
 ```
 
 ### IAP Commands
 
 #### List IAPs for an app
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py list <APP_ID>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py list <APP_ID>
 ```
 
 #### Get IAP details
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py get <IAP_ID>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py get <IAP_ID>
 ```
 
 #### Create a new IAP
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py create <APP_ID> <PRODUCT_ID> <REFERENCE_NAME> [--type NON_CONSUMABLE|CONSUMABLE|NON_RENEWING_SUBSCRIPTION]
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py create <APP_ID> <PRODUCT_ID> <REFERENCE_NAME> [--type NON_CONSUMABLE|CONSUMABLE|NON_RENEWING_SUBSCRIPTION]
 ```
 
 #### Add localization to IAP
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py add-localization <IAP_ID> <LOCALE> <DISPLAY_NAME> <DESCRIPTION>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py add-localization <IAP_ID> <LOCALE> <DISPLAY_NAME> <DESCRIPTION>
 ```
 Note: Description max is 55 characters for non-consumable IAPs.
 
 #### Set IAP price
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py set-price <IAP_ID> <PRICE_USD> [--territory USA]
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py set-price <IAP_ID> <PRICE_USD> [--territory USA]
 ```
 
 #### Delete an IAP
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py delete <IAP_ID>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py delete <IAP_ID>
 ```
 
 ### Subscription Commands
 
 #### List subscription groups for an app
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py list-groups <APP_ID>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py list-groups <APP_ID>
 ```
 
 #### Create a subscription group
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py create-group <APP_ID> <REFERENCE_NAME>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py create-group <APP_ID> <REFERENCE_NAME>
 ```
 
 #### List subscriptions in a group
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py list-subs <GROUP_ID>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py list-subs <GROUP_ID>
 ```
 
 #### Create an auto-renewable subscription
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py create-sub <GROUP_ID> <PRODUCT_ID> <REFERENCE_NAME> --period <PERIOD>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py create-sub <GROUP_ID> <PRODUCT_ID> <REFERENCE_NAME> --period <PERIOD>
 ```
 Period values: `ONE_WEEK`, `ONE_MONTH`, `TWO_MONTHS`, `THREE_MONTHS`, `SIX_MONTHS`, `ONE_YEAR`
 
@@ -103,17 +103,17 @@ Optional: `--review-note "Note for reviewers"`
 
 #### Get subscription details
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py get-sub <SUB_ID>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py get-sub <SUB_ID>
 ```
 
 #### Add localization to a subscription
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py add-sub-localization <SUB_ID> <LOCALE> <DISPLAY_NAME> <DESCRIPTION>
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py add-sub-localization <SUB_ID> <LOCALE> <DISPLAY_NAME> <DESCRIPTION>
 ```
 
 #### Set subscription price
 ```bash
-$VENV ~/.claude/skills/asc-iap-manager/asc_iap.py set-sub-price <SUB_ID> <PRICE_USD> [--territory USA]
+$VENV ${CLAUDE_PLUGIN_ROOT}/asc_iap.py set-sub-price <SUB_ID> <PRICE_USD> [--territory USA]
 ```
 
 ## Typical Workflow: Create a Complete IAP
@@ -327,6 +327,52 @@ fastlane deliver \
 - `--overwrite_screenshots` removes ALL device sizes, not just the ones you're uploading — back up first
 - Ruby 2.7 triggers deprecation warnings but still works
 - The `list_app_store_versions` MCP endpoint returns an error — use fastlane for version-related screenshot work
+
+## AI-Generated Marketing Screenshots (Nano Banana 2)
+
+Create polished App Store marketing screenshots using Nano Banana 2 (`google/nano-banana-2` on Replicate). The model takes a raw app screenshot + a style reference and generates a complete marketing image with device frame, illustrated background, and headline text — no manual compositing needed.
+
+**Why Nano Banana 2:** Flux hallucinated the UI. Pillow compositing looks amateur. Nano Banana 2 preserves the actual app UI inside a realistic device frame with AI-generated backgrounds via style transfer.
+
+### Generate a marketing screenshot
+
+```bash
+./marketing/generate_appstore_screenshot.py screenshot.png "HEADLINE TEXT." output.png \
+  --style-ref path/to/existing_marketing_screenshot.png \
+  --size 6.5
+```
+
+- `screenshot.png` — Raw app screenshot (any size)
+- `"HEADLINE TEXT."` — Bold headline for the top
+- `--style-ref` — Existing marketing screenshot to match style (backgrounds, device frame, layout)
+- `--size` — `6.5` (1242x2688, default) or `6.7` (1290x2796)
+
+### How it works
+
+1. Upload both images to Replicate (`/v1/files`, multipart form — data URIs cause timeouts)
+2. Generate via `google/nano-banana-2` at 1K resolution (2K with 2 images causes `httpx.ReadTimeout`)
+3. Upscale to exact App Store dimensions with Pillow LANCZOS
+4. Upload to ASC via the 3-step API process (reserve → upload chunks → commit)
+
+### Prompt template
+
+```
+Transform the first image into an App Store marketing screenshot matching the exact style
+of the second image. Place the first image (app screenshot) inside a realistic iPhone
+device mockup. Use a [BRAND-APPROPRIATE BACKGROUND DESCRIPTION] matching the illustrated
+art style of the second reference image. Bold white headline '{HEADLINE}' at the top.
+Keep the app screenshot content exactly as-is inside the phone.
+```
+
+Key phrases: "matching the exact style of the second image" (forces style transfer), "Keep the app screenshot content exactly as-is" (prevents UI hallucination).
+
+### Workflow
+
+1. Download existing screenshots as style reference (via ASC API or keep local)
+2. Take raw app screenshots (simulator or device)
+3. Generate marketing images — one per screenshot, show each for approval
+4. Upscale to target dimensions
+5. Upload to ASC via API
 
 ## Gotchas
 

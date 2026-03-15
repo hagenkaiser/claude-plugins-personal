@@ -1,8 +1,0 @@
-{
-  "name": "media-pipeline",
-  "version": "1.0.0",
-  "description": "Use when generating images, voice audio, or video clips via Replicate (Flux 2 Pro, Chatterbox TTS, Wan 2.5) and assembling them with ffmpeg. Generic pipeline — not tied to any specific project.",
-  "author": {
-    "name": "Hagen Kaiser"
-  }
-}

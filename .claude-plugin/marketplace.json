@@ -26,17 +26,7 @@
       "source": "./plugins/late-instagram",
       "category": "productivity"
     },
-    {
-      "name": "media-pipeline",
-      "description": "Generate images, voice audio, and video clips via Replicate (Flux 2 Pro, Chatterbox TTS, Wan 2.5) and assemble them with ffmpeg.",
-      "version": "1.0.0",
-      "author": {
-        "name": "Hagen Kaiser"
-      },
-      "source": "./plugins/media-pipeline",
-      "category": "productivity"
-    },
-    {
+{
       "name": "veo-video-prompting",
       "description": "Convert video ideas into Google Veo 3.1 prompts — addresses hallucination, character/object persistence, spatial consistency, and audio design issues.",
       "version": "1.0.0",
