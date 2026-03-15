@@ -1,0 +1,80 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-plugins-personal",
+  "description": "Personal Claude Code plugins for content creation, media generation, and development tools",
+  "owner": {
+    "name": "Hagen Kaiser"
+  },
+  "plugins": [
+    {
+      "name": "content-creator",
+      "description": "Media generation pipeline — images, voice, slideshows, NSFW content, and Instagram scheduling via Replicate, Modal, and Late API.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/content-creator",
+      "category": "productivity"
+    },
+    {
+      "name": "late-instagram",
+      "description": "Schedule and publish Instagram posts, reels, carousels, and stories via the Late API. Covers media upload, analytics, and multi-platform posting.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/late-instagram",
+      "category": "productivity"
+    },
+    {
+      "name": "media-pipeline",
+      "description": "Generate images, voice audio, and video clips via Replicate (Flux 2 Pro, Chatterbox TTS, Wan 2.5) and assemble them with ffmpeg.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/media-pipeline",
+      "category": "productivity"
+    },
+    {
+      "name": "veo-video-prompting",
+      "description": "Convert video ideas into Google Veo 3.1 prompts — addresses hallucination, character/object persistence, spatial consistency, and audio design issues.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/veo-video-prompting",
+      "category": "productivity"
+    },
+    {
+      "name": "swiftui-designer",
+      "description": "Design, create, and improve SwiftUI views with iterative visual preview capture, design analysis, and code validation.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/swiftui-designer",
+      "category": "development"
+    },
+    {
+      "name": "asc-iap-manager",
+      "description": "Manage App Store Connect in-app purchases and auto-renewable subscriptions — create, list, price, localize, and delete IAPs.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/asc-iap-manager",
+      "category": "development"
+    },
+    {
+      "name": "playwright-cli",
+      "description": "Automate browser interactions, fill forms, take screenshots, scrape web pages, and test web UIs via programmatic browser control.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/playwright-cli",
+      "category": "development"
+    }
+  ]
+}
