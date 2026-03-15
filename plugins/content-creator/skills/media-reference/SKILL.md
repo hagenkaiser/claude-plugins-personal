@@ -243,3 +243,37 @@ python3 ${CLAUDE_PLUGIN_ROOT}/scripts/schedule_instagram.py \
 ## Script Paths
 
 All scripts are at: `${CLAUDE_PLUGIN_ROOT}/scripts/`
+
+## Late API — Managing Instagram Posts
+
+The `schedule_instagram.py` script handles uploading and scheduling. For post management, use curl directly:
+
+```bash
+# List scheduled posts
+curl -s -H "Authorization: Bearer $LATE_API_KEY" \
+  "https://getlate.dev/api/v1/posts?status=scheduled"
+
+# List published posts
+curl -s -H "Authorization: Bearer $LATE_API_KEY" \
+  "https://getlate.dev/api/v1/posts?status=published"
+
+# Update a scheduled/draft post
+curl -s -X PATCH -H "Authorization: Bearer $LATE_API_KEY" \
+  -H "Content-Type: application/json" \
+  "https://getlate.dev/api/v1/posts/POST_ID" \
+  -d '{"content": "Updated caption"}'
+
+# Delete a scheduled/draft post
+curl -s -X DELETE -H "Authorization: Bearer $LATE_API_KEY" \
+  "https://getlate.dev/api/v1/posts/POST_ID"
+
+# Retry a failed post
+curl -s -X POST -H "Authorization: Bearer $LATE_API_KEY" \
+  "https://getlate.dev/api/v1/posts/POST_ID/retry"
+
+# Check account health
+curl -s -H "Authorization: Bearer $LATE_API_KEY" \
+  "https://getlate.dev/api/v1/accounts/ACCOUNT_ID/health"
+```
+
+Post statuses: `draft` → `scheduled` → `publishing` → `published` | `failed`

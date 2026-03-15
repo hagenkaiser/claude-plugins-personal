@@ -16,16 +16,6 @@
       "source": "./plugins/content-creator",
       "category": "productivity"
     },
-    {
-      "name": "late-instagram",
-      "description": "Schedule and publish Instagram posts, reels, carousels, and stories via the Late API. Covers media upload, analytics, and multi-platform posting.",
-      "version": "1.0.0",
-      "author": {
-        "name": "Hagen Kaiser"
-      },
-      "source": "./plugins/late-instagram",
-      "category": "productivity"
-    },
 {
       "name": "swiftui-designer",
       "description": "Design, create, and improve SwiftUI views with iterative visual preview capture, design analysis, and code validation.",

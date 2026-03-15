@@ -1,8 +1,0 @@
-{
-  "name": "late-instagram",
-  "version": "1.0.0",
-  "description": "Use when scheduling or publishing Instagram posts, reels, carousels, or stories via the Late API - also covers media upload, analytics, and multi-platform posting",
-  "author": {
-    "name": "Hagen Kaiser"
-  }
-}
