@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "claude-plugins-personal",
+  "name": "hagen-personal-plugins",
   "description": "Personal Claude Code plugins for content creation, media generation, and development tools",
   "owner": {
     "name": "Hagen Kaiser"
