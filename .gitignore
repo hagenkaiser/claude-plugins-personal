@@ -1,0 +1,13 @@
+# Swift build artifacts
+**/.build/
+**/.swiftpm/
+*.o
+*.d
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/.venv/
+
+# macOS
+.DS_Store

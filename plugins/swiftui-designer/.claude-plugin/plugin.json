@@ -1,0 +1,8 @@
+{
+  "name": "swiftui-designer",
+  "version": "1.0.0",
+  "description": "Use when designing, creating, or improving SwiftUI views - handles iterative design with visual preview capture, design analysis, code validation for accessibility/performance/best-practices, and wireframe-to-code conversion. Requires macOS 14+, Xcode 15+, Swift 5.9+.",
+  "author": {
+    "name": "Hagen Kaiser"
+  }
+}

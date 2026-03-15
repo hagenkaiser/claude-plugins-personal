@@ -1,0 +1,8 @@
+{
+  "name": "playwright-cli",
+  "version": "1.0.0",
+  "description": "Use when automating browser interactions, filling forms, taking screenshots, scraping web pages, testing web UIs, or any task requiring programmatic browser control via the command line",
+  "author": {
+    "name": "Hagen Kaiser"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "asc-iap-manager",
+  "version": "1.0.0",
+  "description": "Use when managing App Store Connect in-app purchases or auto-renewable subscriptions - creating, listing, pricing, localizing, or deleting IAPs and subscriptions. Also use for downloading/uploading App Store screenshots (via ASC API or fastlane). Complements the appstore-connect MCP server which lacks IAP/subscription management and screenshot access.",
+  "author": {
+    "name": "Hagen Kaiser"
+  }
+}
