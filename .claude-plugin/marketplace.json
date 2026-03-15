@@ -27,16 +27,6 @@
       "category": "productivity"
     },
 {
-      "name": "veo-video-prompting",
-      "description": "Convert video ideas into Google Veo 3.1 prompts — addresses hallucination, character/object persistence, spatial consistency, and audio design issues.",
-      "version": "1.0.0",
-      "author": {
-        "name": "Hagen Kaiser"
-      },
-      "source": "./plugins/veo-video-prompting",
-      "category": "productivity"
-    },
-    {
       "name": "swiftui-designer",
       "description": "Design, create, and improve SwiftUI views with iterative visual preview capture, design analysis, and code validation.",
       "version": "1.0.0",

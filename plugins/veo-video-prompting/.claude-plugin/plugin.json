@@ -1,8 +1,0 @@
-{
-  "name": "veo-video-prompting",
-  "version": "1.0.0",
-  "description": "Use when converting video ideas into Google Veo 3.1 prompts - addresses hallucination, character/object persistence, spatial consistency, and audio design issues",
-  "author": {
-    "name": "Hagen Kaiser"
-  }
-}
