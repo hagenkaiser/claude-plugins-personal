@@ -15,23 +15,31 @@ Quick reference for all content-creator plugin scripts.
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py \
   --prompt "scene description" \
   --output path/to/output.jpg \
-  --face-ref path/to/face_reference.jpg \
+  [--face-ref path/to/reference_image.jpg] \
   --aspect 4:5
 ```
 
 Arguments:
-- `--prompt` (required) — Scene description. Prefix `"Generate a new photo of this exact same woman."` is added automatically.
+- `--prompt` (required) — Scene description (passed directly to the model, no prefix added)
 - `--output` (required) — Output image path
-- `--face-ref` (required) — Face reference image
+- `--face-ref` (optional) — Reference image for character/style consistency
 - `--aspect` (default: `4:5`) — Choices: `4:5`, `16:9`, `9:16`, `1:1`
 
-Example:
+Example (with face reference):
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py \
-  --prompt "sitting by a campfire in a snowy forest, golden hour light" \
+  --prompt "Generate a new image of this same character sitting by a campfire, golden hour light" \
   --output data/generated/shot1.jpg \
   --face-ref data/reference_images/canonical/face.jpg \
   --aspect 4:5
+```
+
+Example (without face reference):
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py \
+  --prompt "A dramatic mountain landscape at sunset, wide angle" \
+  --output data/generated/landscape.jpg \
+  --aspect 16:9
 ```
 
 ---
@@ -192,7 +200,7 @@ Requires `MODAL_COMFYUI_URL` environment variable.
 
 ---
 
-### 7. schedule_instagram.py — Instagram scheduling via Late API
+### 7. schedule_instagram.py — Instagram scheduling via Zernio API (formerly Late)
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/scripts/schedule_instagram.py \
@@ -210,7 +218,12 @@ Arguments:
 - `--schedule` (optional) — ISO 8601 datetime for scheduled posting
 - `--timezone` (optional, default: `Europe/Berlin`)
 - `--publish-now` (optional flag) — Publish immediately instead of scheduling
-- `--account-id` (optional) — Override `LATE_INSTAGRAM_ACCOUNT_ID` env var
+- `--account-id` (optional) — Override `ZERNIO_INSTAGRAM_ACCOUNT_ID` env var
+
+Upload flow (handled automatically by the script):
+1. `POST /v1/media/upload-token` → get upload token
+2. `POST /v1/media/upload?token=TOKEN` with `files=` multipart field → get media URL
+3. `POST /v1/posts` with `mediaItems: [{url}]` → schedule/publish
 
 Example (scheduled):
 ```bash
@@ -237,43 +250,45 @@ python3 ${CLAUDE_PLUGIN_ROOT}/scripts/schedule_instagram.py \
 |---|---|
 | `REPLICATE_API_TOKEN` | `generate_image.py`, `generate_voice.py` |
 | `MODAL_COMFYUI_URL` | `generate_nsfw_image.py`, `generate_nsfw_video.py` |
-| `LATE_API_KEY` | `schedule_instagram.py` |
-| `LATE_INSTAGRAM_ACCOUNT_ID` | `schedule_instagram.py` (or pass `--account-id`) |
+| `ZERNIO_API_KEY` (or `LATE_API_KEY`) | `schedule_instagram.py` |
+| `ZERNIO_INSTAGRAM_ACCOUNT_ID` (or `LATE_INSTAGRAM_ACCOUNT_ID`) | `schedule_instagram.py` (or pass `--account-id`) |
 
 ## Script Paths
 
 All scripts are at: `${CLAUDE_PLUGIN_ROOT}/scripts/`
 
-## Late API — Managing Instagram Posts
+## Zernio API — Managing Instagram Posts
+
+Late rebranded to Zernio (`zernio.com`). The API is identical, just a new domain. Old `LATE_API_KEY` env vars still work.
 
 The `schedule_instagram.py` script handles uploading and scheduling. For post management, use curl directly:
 
 ```bash
 # List scheduled posts
-curl -s -H "Authorization: Bearer $LATE_API_KEY" \
-  "https://getlate.dev/api/v1/posts?status=scheduled"
+curl -s -H "Authorization: Bearer $ZERNIO_API_KEY" \
+  "https://zernio.com/api/v1/posts?status=scheduled"
 
 # List published posts
-curl -s -H "Authorization: Bearer $LATE_API_KEY" \
-  "https://getlate.dev/api/v1/posts?status=published"
+curl -s -H "Authorization: Bearer $ZERNIO_API_KEY" \
+  "https://zernio.com/api/v1/posts?status=published"
 
 # Update a scheduled/draft post
-curl -s -X PATCH -H "Authorization: Bearer $LATE_API_KEY" \
+curl -s -X PATCH -H "Authorization: Bearer $ZERNIO_API_KEY" \
   -H "Content-Type: application/json" \
-  "https://getlate.dev/api/v1/posts/POST_ID" \
+  "https://zernio.com/api/v1/posts/POST_ID" \
   -d '{"content": "Updated caption"}'
 
 # Delete a scheduled/draft post
-curl -s -X DELETE -H "Authorization: Bearer $LATE_API_KEY" \
-  "https://getlate.dev/api/v1/posts/POST_ID"
+curl -s -X DELETE -H "Authorization: Bearer $ZERNIO_API_KEY" \
+  "https://zernio.com/api/v1/posts/POST_ID"
 
 # Retry a failed post
-curl -s -X POST -H "Authorization: Bearer $LATE_API_KEY" \
-  "https://getlate.dev/api/v1/posts/POST_ID/retry"
+curl -s -X POST -H "Authorization: Bearer $ZERNIO_API_KEY" \
+  "https://zernio.com/api/v1/posts/POST_ID/retry"
 
 # Check account health
-curl -s -H "Authorization: Bearer $LATE_API_KEY" \
-  "https://getlate.dev/api/v1/accounts/ACCOUNT_ID/health"
+curl -s -H "Authorization: Bearer $ZERNIO_API_KEY" \
+  "https://zernio.com/api/v1/accounts/ACCOUNT_ID/health"
 ```
 
 Post statuses: `draft` → `scheduled` → `publishing` → `published` | `failed`
