@@ -5,11 +5,18 @@ Generate SFW images using Nano Banana Pro on Replicate.
 Uses the Replicate HTTP API (not the SDK, which is broken on Python 3.14).
 
 Usage:
+    # With face reference (for character consistency)
     python3 scripts/generate_image.py \
-        --prompt "She is sitting by a campfire, carving a wooden spoon" \
-        --face-ref path/to/face_reference.jpg \
+        --prompt "A muscular cartoon trainer standing in a gym, arms crossed" \
+        --face-ref path/to/character_reference.jpg \
         --output output/shot1.jpg \
         --aspect 4:5
+
+    # Without face reference (standalone image generation)
+    python3 scripts/generate_image.py \
+        --prompt "A sunset over a mountain trail, dramatic lighting" \
+        --output output/shot1.jpg \
+        --aspect 16:9
 """
 
 import argparse
@@ -21,26 +28,28 @@ import time
 from pathlib import Path
 from urllib.request import Request, urlopen
 
-PROMPT_PREFIX = "Generate a new photo of this exact same woman."
-
 ASPECT_CHOICES = ["4:5", "16:9", "9:16", "1:1"]
 
 
-def create_prediction(token: str, prompt: str, face_ref: Path, aspect_ratio: str) -> str:
-    """Submit a prediction to Replicate and return the prediction ID."""
-    image_bytes = face_ref.read_bytes()
-    image_b64 = base64.b64encode(image_bytes).decode()
-    data_uri = f"data:image/jpeg;base64,{image_b64}"
+def create_prediction(token: str, prompt: str, face_ref: Path | None, aspect_ratio: str) -> dict:
+    """Submit a prediction to Replicate and return the result."""
+    inputs = {
+        "prompt": prompt,
+        "aspect_ratio": aspect_ratio,
+        "output_format": "jpg",
+        "safety_filter_level": "block_only_high",
+    }
+
+    if face_ref is not None:
+        image_bytes = face_ref.read_bytes()
+        image_b64 = base64.b64encode(image_bytes).decode()
+        ext = face_ref.suffix.lower()
+        mime = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg"}.get(ext, "image/jpeg")
+        data_uri = f"data:{mime};base64,{image_b64}"
+        inputs["image_input"] = [data_uri]
 
     payload = json.dumps({
-        "version": "google/nano-banana-pro",
-        "input": {
-            "prompt": f"{PROMPT_PREFIX} {prompt}",
-            "image_input": [data_uri],
-            "aspect_ratio": aspect_ratio,
-            "output_format": "jpg",
-            "safety_filter_level": "block_only_high",
-        },
+        "input": inputs,
     }).encode()
 
     req = Request(
@@ -97,11 +106,11 @@ def main():
     parser = argparse.ArgumentParser(
         description="Generate SFW images via Nano Banana Pro on Replicate."
     )
-    parser.add_argument("--prompt", required=True, help="Scene description (prefix is added automatically).")
+    parser.add_argument("--prompt", required=True, help="Scene description (passed directly to the model).")
     parser.add_argument("--output", type=Path, required=True, help="Output image path.")
     parser.add_argument(
-        "--face-ref", type=Path, required=True,
-        help="Face reference image (required).",
+        "--face-ref", type=Path, default=None,
+        help="Face/style reference image (optional, for character consistency).",
     )
     parser.add_argument(
         "--aspect", choices=ASPECT_CHOICES, default="4:5",
@@ -114,14 +123,14 @@ def main():
         print("Error: REPLICATE_API_TOKEN is not set.", file=sys.stderr)
         sys.exit(1)
 
-    if not args.face_ref.exists():
+    if args.face_ref and not args.face_ref.exists():
         print(f"Error: face reference not found: {args.face_ref}", file=sys.stderr)
         sys.exit(1)
 
-    full_prompt = f"{PROMPT_PREFIX} {args.prompt}"
     print(f"Generating image...")
-    print(f"  Prompt: {full_prompt[:100]}{'...' if len(full_prompt) > 100 else ''}")
-    print(f"  Face ref: {args.face_ref}")
+    print(f"  Prompt: {args.prompt[:100]}{'...' if len(args.prompt) > 100 else ''}")
+    if args.face_ref:
+        print(f"  Face ref: {args.face_ref}")
     print(f"  Aspect: {args.aspect}")
 
     result = create_prediction(token, args.prompt, args.face_ref, args.aspect)

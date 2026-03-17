@@ -21,7 +21,7 @@ Check if the project has a content plan (e.g. `data/generated/plans/week_N.json`
 ### Step 2: Generate images
 
 Use `generate_image.py` for SFW content. For each shot:
-- Use the project's face reference image (`--face-ref`)
+- If the project has a face/style reference image, use `--face-ref` for character consistency
 - Use `4:5` for portraits, `16:9` for landscapes, `9:16` for Reels
 - Show each generated image to the user and get approval before continuing
 
@@ -30,6 +30,14 @@ python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py \
   --prompt "scene description" \
   --output data/generated/shot1.jpg \
   --face-ref <project_face_ref> \
+  --aspect 4:5
+```
+
+If no face reference is needed:
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/scripts/generate_image.py \
+  --prompt "scene description" \
+  --output data/generated/shot1.jpg \
   --aspect 4:5
 ```
 
