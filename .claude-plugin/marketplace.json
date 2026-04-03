@@ -16,7 +16,7 @@
       "source": "./plugins/content-creator",
       "category": "productivity"
     },
-{
+    {
       "name": "swiftui-designer",
       "description": "Design, create, and improve SwiftUI views with iterative visual preview capture, design analysis, and code validation.",
       "version": "1.0.0",

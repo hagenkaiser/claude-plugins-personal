@@ -1,0 +1,9 @@
+{
+  "myAppId": "YOUR_APP_ID",
+  "competitors": [
+    { "name": "Competitor A", "id": "COMPETITOR_APP_ID_1" },
+    { "name": "Competitor B", "id": "COMPETITOR_APP_ID_2" }
+  ],
+  "keywords": ["your keyword 1", "your keyword 2", "your keyword 3"],
+  "country": "us"
+}
