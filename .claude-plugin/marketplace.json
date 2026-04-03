@@ -45,6 +45,16 @@
       },
       "source": "./plugins/playwright-cli",
       "category": "development"
+    },
+    {
+      "name": "aso",
+      "description": "App Store Optimization intelligence — MCP tools and skills for keyword research, competitor analysis, and metadata optimization.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/aso",
+      "category": "productivity"
     }
   ]
 }
