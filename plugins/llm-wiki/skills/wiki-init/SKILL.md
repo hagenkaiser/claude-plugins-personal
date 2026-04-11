@@ -17,7 +17,7 @@ Confirm creation:
 ```bash
 ls ~/Documents/wiki/
 ```
-Expected: `CLAUDE.md  assets  ideas  index.md  lessons  log.md  markets  projects  sources` (after writing files below)
+Expected: `assets  ideas  lessons  markets  projects  sources` (CLAUDE.md, index.md, log.md are written in the following steps)
 
 ## Step 2: Write vault schema (~/Documents/wiki/CLAUDE.md)
 
@@ -45,7 +45,7 @@ Root pages (`~/Documents/wiki/*.md`) are reserved for: CLAUDE.md (this file), in
 
 Every wiki page uses this structure:
 
-​```
+```
 ---
 tags: [<type>]
 updated: YYYY-MM-DD
@@ -59,7 +59,7 @@ Body content. Use [[wikilinks]] when referencing other pages in the vault.
 
 ## Related
 - [[path/to/related-page]]
-​```
+```
 
 Valid tags: `idea`, `lesson`, `project`, `market`, `source`, `user`
 
@@ -74,7 +74,7 @@ Valid tags: `idea`, `lesson`, `project`, `market`, `source`, `user`
 
 Organized by directory. One line per page:
 
-​```
+```
 ## Ideas
 - [[ideas/idea-name]] — one-line summary
 
@@ -89,7 +89,7 @@ Organized by directory. One line per page:
 
 ## Sources
 - [[sources/source-name]] — one-line summary
-​```
+```
 
 Update index.md on every write — add new entries, update changed summaries.
 
@@ -97,11 +97,11 @@ Update index.md on every write — add new entries, update changed summaries.
 
 Append-only. Never edit past entries. Each entry:
 
-​```
+```
 ## [YYYY-MM-DD] <type> | <title>
 
 Brief note on what was added/changed and why.
-​```
+```
 
 Types: `init`, `ingest`, `idea`, `lesson`, `project`, `market`, `query`, `lint`
 
@@ -176,9 +176,17 @@ For each file found:
    - `project` → `projects/`
    - `reference` → `sources/`
    - `user` → write as root-level `user-profile.md`
-3. Derive the source project name from the directory path (e.g., `-Users-hagenkaiser-Code-GoodMorning-Good-Morning` → `Good Morning`)
-4. Write a new vault page using the page template (preserve the original content in the body, add `tags`, `updated` from today, source project in a "Source" note)
-5. Add wikilinks to the project page if the memory file belongs to a known project (create the project page stub if needed)
+3. Derive the source project name from the directory path:
+   - Take the last hyphen-separated segment (e.g., `Good-Morning` from `-Users-hagenkaiser-Code-GoodMorning-Good-Morning`, or `Throwdown` from `-Users-hagenkaiser-Code-Throwdown`)
+   - Convert hyphens to spaces → human-readable name (`Good Morning`, `Throwdown`)
+   - For the wiki page filename: lowercase with hyphens (e.g., `good-morning`)
+4. The new wiki page filename follows the pattern: `<project-slug>-<original-name-without-type-prefix>.md`
+   - Strip the type prefix from the original filename (`feedback_`, `project_`, `reference_`)
+   - Replace underscores with hyphens
+   - Prepend the project slug
+   - Example: `feedback_backward_compat.md` in GoodMorning project → `good-morning-backward-compat.md`
+5. Write a new vault page using the page template (preserve the original content in the body, add `tags`, `updated` from today, and add `## Related` section linking to the project page: `- [[projects/<project-slug>]]`)
+6. Add wikilinks to the project page if the memory file belongs to a known project (create the project page stub if needed)
 
 After all migrations:
 - Update `index.md` with all migrated pages
