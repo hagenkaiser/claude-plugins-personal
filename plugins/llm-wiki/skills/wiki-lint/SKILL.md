@@ -50,7 +50,7 @@ Exclude from orphan check: root-level pages (user-profile.md etc.) and pages lin
 
 ## Step 5: Flag potential contradictions
 
-Read pages in the same directory that cover similar topics (identified by title similarity or shared wikilinks). Flag pairs that may contradict:
+Read pages in the same directory that cover similar topics (identified by title similarity or shared keywords in their Related sections). Flag pairs that may contradict:
 
 ```
 🟠 Potential contradictions (review):
@@ -58,7 +58,7 @@ Read pages in the same directory that cover similar topics (identified by title 
   Both discuss API versioning — check for conflicting guidance
 ```
 
-This is heuristic — flag pairs that share keywords in their titles or related sections.
+This is heuristic — flag pairs that share keywords in their titles or Related sections.
 
 ## Step 6: Flag stale pages
 
