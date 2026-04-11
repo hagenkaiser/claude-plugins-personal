@@ -21,7 +21,7 @@ export async function lookupApp(id: string, country = "us"): Promise<AppMeta | n
   const url = `${BASE}/lookup?id=${id}&country=${country}&entity=software`;
   const res = await fetch(url);
   const json = (await res.json()) as { resultCount: number; results: Record<string, unknown>[] };
-  if (json.resultCount === 0) return null;
+  if (!json.results || json.resultCount === 0) return null;
   const r = json.results[0];
   return {
     trackId: String(r.trackId),
