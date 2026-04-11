@@ -1,0 +1,8 @@
+{
+  "name": "llm-wiki",
+  "version": "1.0.0",
+  "description": "Maintain a persistent, Obsidian-backed personal knowledge base — capturing ideas, lessons, and cross-project context across all work sessions.",
+  "author": {
+    "name": "Hagen Kaiser"
+  }
+}

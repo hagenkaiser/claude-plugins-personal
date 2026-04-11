@@ -55,6 +55,16 @@
       },
       "source": "./plugins/aso",
       "category": "productivity"
+    },
+    {
+      "name": "llm-wiki",
+      "description": "Maintain a persistent, Obsidian-backed personal knowledge base — capturing ideas, lessons, and cross-project context across all work sessions.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Hagen Kaiser"
+      },
+      "source": "./plugins/llm-wiki",
+      "category": "productivity"
     }
   ]
 }
