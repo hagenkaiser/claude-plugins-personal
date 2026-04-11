@@ -12,6 +12,7 @@ Periodic maintenance pass. Run when the wiki feels messy or every few weeks.
 ```bash
 find ~/Documents/wiki -name "*.md" \
   ! -name "CLAUDE.md" ! -name "index.md" ! -name "log.md" \
+  ! -path "*/assets/*" \
   | sort
 ```
 

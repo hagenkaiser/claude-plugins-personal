@@ -14,6 +14,7 @@ Proactive trigger — log when it passes the "worth reading in 6 months?" test:
 - Market or product insight discovered during research
 - Lesson from a failure, workaround, or unexpected discovery
 - Idea worth preserving before it disappears
+- New information about a project that changes its context page
 
 When logging proactively, announce first: `Logging to wiki: [title]` — then proceed without asking permission.
 
