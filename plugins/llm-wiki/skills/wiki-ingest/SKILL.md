@@ -20,6 +20,21 @@ find ~/Documents/wiki/raw -type f | sort
 
 Ask: "Discuss-first (I summarize, we talk, then file) or auto-process (file immediately)?"
 
+## Step 2.5: Convert PDF (if applicable)
+
+If the source file has a `.pdf` extension, convert it to markdown before reading:
+
+```bash
+${CLAUDE_PLUGIN_ROOT}/.venv/bin/python ${CLAUDE_PLUGIN_ROOT}/scripts/pdf_to_md.py <source-path>
+```
+
+Capture the path printed to stdout — this is the `.md` file to use in all subsequent steps.
+
+If the venv is not set up yet, tell the user:
+> "Run `bash <path-to-llm-wiki-plugin>/setup_venv.sh` first to install PDF dependencies, then retry."
+
+If the source is not a `.pdf`, skip this step entirely.
+
 ## Step 3: Read the source
 
 Read the full source file. Determine:
